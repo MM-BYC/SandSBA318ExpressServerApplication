@@ -8,6 +8,9 @@ const {
   notFoundHandler,
 } = require("./middlewares/errorHandler.middleware");
 
+// static public folder
+app.use(express.static("public"));
+
 /*parse body
 
 express.json(): Parses JSON requests, where the request body is in JSON format (e.g., { "name": "John" }). This middleware populates req.body with the parsed JSON data.
@@ -22,6 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 // everytime a router is visited, this middleware will be executed
 // to console log METHOD and url
 app.use(logger);
+app.use((req, res, next) => {
+  console.log("Middleware: after the logger");
+  next();
+});
 
 app.set("views", "./views"); // Set the views directory
 app.set("view engine", "ejs"); // Set the view engine to EJS
@@ -38,6 +45,20 @@ const items = require("./models/items.models");
 // route to test error handling "errorHandler.middleware.js"
 app.get("/error-page", (req, res, next) => {
   throw new Error("Test error");
+});
+
+//routes to query data
+// to test: http://localhost:3000/api/items/query?itemName=item1
+app.get("/api/items/query", (req, res) => {
+  const { itemName, description } = req.query;
+  const filteredItems = items.filter((item) => {
+    return (
+      // !itemName, ! description to handle in case query does not contains itemName or description
+      (!itemName || item.itemName.includes(itemName)) &&
+      (!description || item.description.includes(description))
+    );
+  });
+  res.json(filteredItems);
 });
 
 // route get to show items

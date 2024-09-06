@@ -7,7 +7,7 @@ const items = [
   },
   {
     id: 2,
-    itemName: "item1",
+    itemName: "item2",
     description: "item2 description",
   },
 ];
