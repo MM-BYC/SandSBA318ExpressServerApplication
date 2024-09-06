@@ -1,4 +1,4 @@
-//user profile
+//items profile
 const items = [
   {
     id: 1,

@@ -3,6 +3,14 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8000;
 
+app.set("views", "./views"); // Set the views directory
+app.set("view engine", "ejs"); // Set the view engine to EJS
+// npm install express ejs --save
+
+app.get("/HomeMainPage", (req, res) => {
+  res.render("HomeMainPage", { name: "Michael" });
+});
+
 /*parse body
 
 express.json(): Parses JSON requests, where the request body is in JSON format (e.g., { "name": "John" }). This middleware populates req.body with the parsed JSON data.
