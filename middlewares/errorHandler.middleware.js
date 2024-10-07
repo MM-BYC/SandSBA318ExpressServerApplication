@@ -10,10 +10,12 @@ const errorHandler = (err, req, res, next) => {
   res
     .status(statusCode)
     .send({ message: "Internal Server Error", statusCode: statusCode });
+  next(); // Added this
 };
 
 const notFoundHandler = (req, res, next) => {
   res.status(404).send({ message: "Page not found!", statusCode: 404 });
+  next(); // Added this
 };
 
 module.exports = { errorHandler, notFoundHandler };
